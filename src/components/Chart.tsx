@@ -13,51 +13,31 @@ const chartSetting = {
 const dataset = [
   {
     invoices: 30,
-    month: 'Jan'
+    day: 'Mon'
   },
   {
     invoices: 45,
-    month: 'Feb'
+    day: 'Tue'
   },
   {
     invoices: 48,
-    month: 'Mar'
+    day: 'Wed'
   },
   {
     invoices: 45,
-    month: 'Apr'
+    day: 'Thu'
   },
   {
     invoices: 98,
-    month: 'May'
+    day: 'Fri'
   },
   {
     invoices: 34,
-    month: 'June'
+    day: 'Sat'
   },
   {
     invoices: 87,
-    month: 'July'
-  },
-  {
-    invoices: 56,
-    month: 'Aug'
-  },
-  {
-    invoices: 23,
-    month: 'Sept'
-  },
-  {
-    invoices: 76,
-    month: 'Oct'
-  },
-  {
-    invoices: 120,
-    month: 'Nov'
-  },
-  {
-    invoices: 80,
-    month: 'Dec'
+    day: 'Sun'
   }
 ]
 
@@ -68,7 +48,7 @@ export default function HorizontalBars() {
     <div className="text-primary-100">
       <BarChart
         dataset={dataset}
-        yAxis={[{scaleType: 'band', dataKey: 'month'}]}
+        yAxis={[{scaleType: 'band', dataKey: 'day'}]}
         series={[{dataKey: 'invoices', valueFormatter, color: '#FF6641'}]}
         layout="horizontal"
         {...chartSetting}

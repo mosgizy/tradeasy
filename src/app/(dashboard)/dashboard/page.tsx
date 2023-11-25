@@ -9,7 +9,9 @@ import {useEffect} from 'react'
 
 const Dashboard = () => {
   const {data, loading} = useFetch('vendor/current')
-  const {setVendorData, vendorData} = registerStore()
+  const {setVendorData} = registerStore()
+
+  // console.log(data)
 
   useEffect(() => {
     setVendorData({...data?.data})
@@ -21,15 +23,22 @@ const Dashboard = () => {
       <div className="mt-6 grid grid-cols-3 gap-4 font-medium">
         <div className=" flex-column gap-4 py-6 px-8 rounded-lg shadow-100">
           <div>Total Payment Received</div>
-          <div className="text-2xl">N 2, 500, 000</div>
+          <div className="text-2xl">
+            {loading ? <div className="loader"></div> : <span>N{data?.data.totalCredit}</span>}
+          </div>
         </div>
         <div className=" flex-column gap-4 py-6 px-8 rounded-lg shadow-100">
           <div>Total Withdrawn</div>
-          <div className="text-2xl">N 2, 500</div>
+          <div className="text-2xl">
+            {loading ? <div className="loader"></div> : <span>N{data?.data.totalWithdrawal}</span>}
+          </div>
         </div>
         <div className=" flex-column gap-4 py-6 px-8 rounded-lg shadow-100">
           <div>Balance</div>
-          <div className="text-2xl">N 2, 500, 000</div>
+          <div className="text-2xl">
+            {' '}
+            {loading ? <div className="loader"></div> : <span>N{data?.data.balance}</span>}
+          </div>
         </div>
       </div>
       <div className="py-14 grid grid-cols-3 gap-4">

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import {ChangeEvent, FormEvent, useState} from 'react'
 import Cookies from 'js-cookie'
 import {useRouter} from 'next/navigation'
+import useToaster from '@/hooks/useToast'
 
 const Business = () => {
   const {formData, setFormData} = registerStore()
@@ -17,6 +18,8 @@ const Business = () => {
     const {name, value} = e.target
     setFormData({...formData, [name]: value})
   }
+
+  const notify = useToaster()
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -32,13 +35,19 @@ const Business = () => {
 
       const data = await res.json()
 
+      if (!res.ok) {
+        notify(data.message)
+      }
+
       if (res.ok) {
         const oneDay = 24 * 60 * 60 * 1000
         Cookies.set('token', data.data.token, {secure: true, sameSite: 'strict', expires: Date.now() - oneDay})
         router.push('/verify')
       }
+      setloading(false)
     } catch (error) {
       console.error(error)
+      setloading(false)
     }
   }
 
@@ -77,7 +86,7 @@ const Business = () => {
               />
               <div>
                 <h2>Registered </h2>
-                <p>Mu business is documented, licenced and approved by the law</p>
+                <p>My business is documented, licenced and approved by the law</p>
               </div>
             </label>
           </li>

@@ -7,6 +7,7 @@ import React, {useState, useEffect, ChangeEvent, FormEvent} from 'react'
 import {useRouter} from 'next/navigation'
 import {registerStore} from '@/store/register'
 import Cookies from 'js-cookie'
+import useToaster from '@/hooks/useToast'
 
 const Verify = () => {
   const [seconds, setSeconds] = useState(30)
@@ -32,7 +33,7 @@ const Verify = () => {
     setFormData({...formData, [name]: value.slice(0, 1)})
   }
 
-  // console.log(vendor)
+  const notify = useToaster()
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     const OTP = `${formData.num1}${formData.num2}${formData.num3}${formData.num4}${formData.num5}`
@@ -48,10 +49,13 @@ const Verify = () => {
       })
 
       const data = await res.json()
-      console.log(data)
+
+      if (!res.ok) {
+        notify(data.message)
+      }
 
       if (res.ok) {
-        router.push('/dasboard')
+        router.push('/dashboard')
       }
     } catch (error) {
       console.error(error)
