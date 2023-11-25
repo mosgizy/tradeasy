@@ -1,0 +1,1 @@
+export const baseUrl = 'https://tradeasy-production.up.railway.app/api/v1'
