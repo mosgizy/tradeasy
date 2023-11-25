@@ -100,8 +100,8 @@ const AddClientModal = ({closeModal}: {closeModal: () => void}) => {
               className="bg-secondary-700 rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-[0.437rem] w-full"
             >
               <option></option>
-              <option value="INDIVIDUAL">INDIVIDUAL</option>
-              <option value="BUSINESS">BUSINESS</option>
+              <option value="INDIVIDUAL">individual</option>
+              <option value="BUSINESS">business</option>
             </select>
           </label>
           <label htmlFor="phone" className="flex-column gap-1">

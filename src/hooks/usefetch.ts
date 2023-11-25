@@ -25,11 +25,10 @@ const useFetch = (url:string) => {
         }
       })
       const data = await res.json()
-      // console.log(data)
       if (res.ok) {
         setData(data)
-        setLoading(false)
       }
+      setLoading(false)
     } catch (error) {
       console.log(error)
       setError(error as any)

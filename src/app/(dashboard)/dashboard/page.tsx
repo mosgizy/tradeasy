@@ -47,7 +47,7 @@ const Dashboard = () => {
           <div className="shadow-200 rounded-md py-6 mt-6">
             <div className="flex items-start justify-between font-medium px-8 pb-7 border-b border-secondary-100">
               <div>
-                <h3>Total invoice drafted for the year</h3>
+                <h3>Total invoice drafted for the week</h3>
                 <div className=" text-[2.5rem]">350</div>
               </div>
               <div className="flex gap-8 max-h-fit">
@@ -56,7 +56,7 @@ const Dashboard = () => {
                   {arrowRight}
                 </div>
                 <div className="flex-center gap-2 border border-secondary-300 font-medium rounded-[0.25rem] px-1 py-[0.1875rem]">
-                  <span>Year</span>
+                  <span>Week</span>
                   {down}
                 </div>
               </div>

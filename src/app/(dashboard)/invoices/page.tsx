@@ -23,7 +23,7 @@ const Invoice = () => {
   const {data, loading, fetchData} = useFetch(`invoice/all?pageNumber=${currentPage}&pageSize=10`)
   const {data: statsData, loading: statsLoading} = useFetch('invoice/statistics')
 
-  // console.log(data)
+  console.log(statsData)
 
   const handleToggleDetails = (id?: string) => {
     setToggleDetails(prev => !prev)

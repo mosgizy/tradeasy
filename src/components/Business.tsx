@@ -53,7 +53,7 @@ const Business = () => {
 
   return (
     <>
-      <h2 className="font-semibold text-xl mb-[2.88rem]">What type of business are run?</h2>
+      <h2 className="font-semibold text-xl mb-[2.88rem]">What type of business do you run?</h2>
       <form onSubmit={submitForm}>
         <ul className="[&_h2]:text-xl [&_h2]:font-medium [&_h2]:mb-[0.94rem] flex-column gap-6 text-left">
           <li>
@@ -92,8 +92,8 @@ const Business = () => {
           </li>
         </ul>
         <div className="text-xs mt-[2.81rem]">
-          By clicking the create account button, you agree to{' '}
-          <span className="text-primary-100">Tradeasy term and condition</span>
+          <span>By clicking the create account button, you agree to</span>
+          <span className="text-primary-100">Tradeazy terms and condition</span>
         </div>
         <button className=" rounded-lg bg-primary-100 py-3 my-6 block w-full font-bold text-white">
           {loading ? <div className="loader"></div> : 'Create Account'}

@@ -1,7 +1,7 @@
 export const calculateTimeInterval = (dateString: string) => {
   const currentDate = new Date()
-  const targetDate = new Date('2023-11-25T03:40:23.384Z')
-  const timeDifference = targetDate.getTime() - currentDate.getTime()
+  const targetDate = new Date(dateString)
+  const timeDifference = currentDate.getTime() - targetDate.getTime()
 
   const seconds = Math.floor(Math.abs(timeDifference) / 1000)
   const minutes = Math.floor(seconds / 60)

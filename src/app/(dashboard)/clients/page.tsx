@@ -20,8 +20,6 @@ const Clients = () => {
 
   const allClients = data as clientDataI
 
-  // console.log(data)
-
   const handleToggleModal = () => {
     setToggleModal(prev => !prev)
     fetchData()
@@ -43,7 +41,7 @@ const Clients = () => {
   }, [currentPage])
 
   useEffect(() => {
-    data && setTotalPages(data?.data.totalPage)
+    setTotalPages(data?.data.totalPage)
   }, [data])
 
   return (

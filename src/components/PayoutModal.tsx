@@ -5,19 +5,27 @@ import {ChangeEvent, FormEvent, useState} from 'react'
 import Cookies from 'js-cookie'
 import useToaster from '@/hooks/useToast'
 import Image from 'next/image'
+import useFetch from '@/hooks/usefetch'
 
 const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
   const [formData, setFormData] = useState({
-    fullname: '',
-    email: '',
-    phone: '',
-    billingAddress: '',
-    clientType: ''
+    bankCode: '',
+    accountNumber: '',
+    amount: 0,
+    password: ''
   })
+  const [accountName, setAccountName] = useState('')
   const handleForm = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const {name, value} = e.target
+    if (name === 'accountNumber') {
+      verifyAccountNumber()
+    }
     setFormData({...formData, [name]: value})
   }
+
+  const {data, loading: banksLoader} = useFetch('wallet/banks')
+
+  // console.log(accountName)
 
   const [loading, setloading] = useState(false)
 
@@ -26,6 +34,8 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const {accountNumber, bankCode, password, amount} = formData
+    console.log(formData)
     setloading(true)
     try {
       const res = await fetch(`${baseUrl}/client/create`, {
@@ -34,23 +44,60 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
           'Content-Type': 'application/json; charset=utf-8',
           authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          accountNumber,
+          bankCode,
+          password,
+          amount: Number(amount)
+        })
       })
 
       const data = await res.json()
+
+      console.log(data)
 
       if (!res.ok) {
         notify('Please provide all credentials')
       }
 
       if (res.ok) {
-        notify(data.message)
-        // closeModal()
+        closeModal()
       }
       setloading(false)
     } catch (error) {
       console.error(error)
       setloading(false)
+    }
+  }
+
+  const verifyAccountNumber = async () => {
+    const {accountNumber, bankCode} = formData
+    console.log(accountNumber, bankCode)
+
+    try {
+      const res = await fetch(`${baseUrl}/wallet/verify-account`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({bankCode, accountNumber})
+      })
+
+      const data = await res.json()
+
+      console.log(data)
+
+      if (!res.ok) {
+        // notify(data.message)
+      }
+
+      if (res.ok) {
+        setAccountName(data.data.account_name)
+        notify(data.message)
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -68,30 +115,44 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
         </div>
 
         <form onSubmit={submitForm} className="font-semibold mt-9 flex-column gap-3 [&_span]:text-sm">
-          <label htmlFor="clientType" className="flex-column gap-1">
+          <label htmlFor="bankCode" className="flex-column gap-1">
             <span>Select Bank</span>
             <select
-              name="clientType"
-              id="clientType"
+              name="bankCode"
+              id="bankCode"
+              value={formData.bankCode}
               onChange={handleForm}
               className="bg-secondary-700 rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-[0.437rem] w-full"
             >
               <option></option>
-              <option value="INDIVIDUAL">INDIVIDUAL</option>
-              <option value="BUSINESS">BUSINESS</option>
+              {banksLoader ? (
+                <div className="flex-center justify-center">
+                  <div className="loader"></div>
+                </div>
+              ) : (
+                data?.data.map((bank: any) => {
+                  return (
+                    <option key={bank.id} value={bank.code}>
+                      {bank.name}
+                    </option>
+                  )
+                })
+              )}
             </select>
           </label>
-          <label htmlFor="fullname" className="flex-column gap-1">
+          <label htmlFor="accountNumber" className="flex-column gap-1">
             <span>Account Number</span>
             <input
               type="number"
-              name="fullname"
-              id="fullname"
+              name="accountNumber"
+              id="accountNumber"
+              value={formData.accountNumber}
               onChange={handleForm}
               required
               className=" rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
             />
           </label>
+          {accountName && <div>{accountName}</div>}
 
           <hr className=" my-4" />
 
@@ -101,6 +162,7 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
               type="number"
               name="amount"
               id="amount"
+              value={formData.amount}
               onChange={handleForm}
               required
               className=" rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
@@ -112,13 +174,14 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
               type="password"
               name="password"
               id="password"
+              value={formData.password}
               onChange={handleForm}
               required
               className="rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
             />
           </label>
           <button className="rounded-lg bg-primary-100 mt-3 py-3 block w-full font-bold text-white">
-            {loading ? <div className="loader"></div> : 'Add New Client'}
+            {loading ? <div className="loader"></div> : 'Pay Out'}
           </button>
         </form>
       </div>
