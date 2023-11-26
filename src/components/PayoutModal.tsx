@@ -41,6 +41,8 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
     e.preventDefault()
     const {accountNumber, bankCode, password, amount} = formData
     const percent = (2 / Number(amount)) * 100
+    const newAmount = Number(amount) - percent
+    // console.log(newAmount)
     setloading(true)
     try {
       const res = await fetch(`${baseUrl}/wallet/withdraw`, {
@@ -50,10 +52,10 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
           authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
-          bankCode: '004',
-          accountNumber: '0690000032',
+          bankCode,
+          accountNumber,
           password,
-          amount: Number(amount) - percent
+          amount: newAmount
         })
       })
 
@@ -85,7 +87,7 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
           'Content-Type': 'application/json; charset=utf-8',
           authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({bankCode: '004', accountNumber: '0690000032'})
+        body: JSON.stringify({bankCode, accountNumber})
       })
 
       const data = await res.json()
