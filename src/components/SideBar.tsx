@@ -13,7 +13,7 @@ const SideBar = () => {
 
   return (
     <div className="flex-[1_1_15%] bg-secondary-400 py-7">
-      <Link href="/" className="flex-center justify-center gap-2 mb-16">
+      <Link href="/" className="flex-center gap-2 mb-16">
         <>
           <Image src="/icons/logo.svg" alt="" width={18} height={19} />
           <span className="text-xl">Tradeazy.</span>
@@ -86,7 +86,7 @@ const SideBar = () => {
             </span>
           </li>
         </ul>
-        <div className="flex justify-center border-t border-secondary-100 w-full pt-16">
+        <div className="flex border-t border-secondary-100 w-full pt-16">
           <ul className="flex-column gap-6 [&_a]:flex-center [&_a]:gap-4 -pl-4">
             <li>
               <Link

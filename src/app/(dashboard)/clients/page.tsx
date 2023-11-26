@@ -132,7 +132,6 @@ const Clients = () => {
           </div>
           <div className="">
             <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-            {/* <Pagination shape="rounded" count={totalPages} page={currentPage} onChange={handlePageChange} /> */}
           </div>
         </div>
       </div>

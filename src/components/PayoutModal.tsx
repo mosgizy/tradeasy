@@ -84,8 +84,7 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
       const res = await fetch(`${baseUrl}/wallet/verify-account`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          authorization: `Bearer ${token}`
+          'Content-Type': 'application/json; charset=utf-8'
         },
         body: JSON.stringify({bankCode, accountNumber})
       })

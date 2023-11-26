@@ -1,24 +1,40 @@
 'use client'
 
 import Empty from '@/components/Empty'
+import Pagination from '@/components/Pagination'
 import PayoutModal from '@/components/PayoutModal'
 import {formatDate} from '@/helpers/formatDate'
 import useFetch from '@/hooks/usefetch'
 import {arrowLeft, arrowRight, profile} from '@/utils/icons'
 import {paymentI} from '@/utils/interface'
 import Image from 'next/image'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 const Wallet = () => {
   const [toggleModal, setToggleModal] = useState(false)
-  const {data, loading, error} = useFetch('wallet/history')
-  const {data: vendorData, loading: vendorLoading, fetchData} = useFetch('vendor/current')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
-  // console.log(data, error)
+  const {data, loading, error, fetchData: fetchDataHistory} = useFetch('wallet/history')
+  const {data: vendorData, loading: vendorLoading, fetchData} = useFetch('vendor/current')
 
   const handleToggleModal = () => {
     setToggleModal(prev => !prev)
   }
+
+  const updateStats = () => {
+    fetchDataHistory()
+    fetchData()
+  }
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(() => pageNumber)
+  }
+
+  useEffect(() => {
+    fetchDataHistory()
+  }, [currentPage])
+
   return (
     <div>
       <div className="flex-center justify-between">
@@ -130,29 +146,12 @@ const Wallet = () => {
               )}
             </div>
             <div className="">
-              <div className="p-6 flex-center justify-end gap-4">
-                <button>{arrowLeft}</button>
-                <ul className="flex gap-2 text-xs font-medium [&_button]:px-4 [&_button]:py-[0.6875rem] [&_button]:rounded-[0.25rem] [&_button]:border-[0.5px] [&_button]:border-secondary-100">
-                  <li>
-                    <button>1</button>
-                  </li>
-                  <li>
-                    <button>2</button>
-                  </li>
-                  <li>
-                    <button>3</button>
-                  </li>
-                  <li>
-                    <button>4</button>
-                  </li>
-                </ul>
-                <button>{arrowRight}</button>
-              </div>
+              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
             </div>
           </div>
         </div>
       </div>
-      {toggleModal && <PayoutModal closeModal={handleToggleModal} fetchData={fetchData} />}
+      {toggleModal && <PayoutModal closeModal={handleToggleModal} fetchData={updateStats} />}
     </div>
   )
 }
