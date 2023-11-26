@@ -1,7 +1,7 @@
 'use client'
 
 import {baseUrl} from '@/utils/constants'
-import {ChangeEvent, FormEvent, useState} from 'react'
+import {ChangeEvent, FormEvent, useEffect, useReducer, useState} from 'react'
 import Cookies from 'js-cookie'
 import useToaster from '@/hooks/useToast'
 import Image from 'next/image'
@@ -19,12 +19,10 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
     amount: 0,
     password: ''
   })
+
   const [accountName, setAccountName] = useState('')
   const handleForm = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const {name, value} = e.target
-    if (name === 'accountNumber') {
-      verifyAccountNumber()
-    }
     setFormData({...formData, [name]: value})
   }
 
@@ -40,9 +38,9 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const {accountNumber, bankCode, password, amount} = formData
-    const percent = (2 / Number(amount)) * 100
+    const percent = (2 / 100) * Number(amount)
     const newAmount = Number(amount) - percent
-    // console.log(newAmount)
+
     setloading(true)
     try {
       const res = await fetch(`${baseUrl}/wallet/withdraw`, {
@@ -55,7 +53,7 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
           bankCode,
           accountNumber,
           password,
-          amount: newAmount
+          amount: Number(amount)
         })
       })
 
@@ -98,6 +96,10 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
       console.error(error)
     }
   }
+
+  useEffect(() => {
+    formData.accountNumber.length >= 10 && verifyAccountNumber()
+  }, [formData.accountNumber])
 
   return (
     <div className="modal-wrapper" onClick={closeModal}>

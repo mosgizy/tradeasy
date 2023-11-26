@@ -40,8 +40,9 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
     const {item, quantity, unitPrice, tax} = formData
     if (item !== '' && quantity !== 0 && unitPrice !== 0) {
       setItems([...items, {item, quantity: Number(quantity), unitPrice: Number(unitPrice)}])
-      const totalPrice = total + Number(unitPrice) * Number(quantity) + Number(tax)
-      setTotal(totalPrice)
+      const totalPrice = total + Number(unitPrice) * Number(quantity)
+      const taxPrice = (Number(tax) / 100) * totalPrice
+      setTotal(totalPrice - taxPrice)
       setFormData({...formData, item: '', quantity: 0, unitPrice: 0})
     }
   }
@@ -111,7 +112,7 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
                 </select>
               </label>
               <label htmlFor="tax" className="flex-column gap-1">
-                <span className="text-sm font-medium">Tax</span>
+                <span className="text-sm font-medium">Tax (%)</span>
                 <input
                   type="text"
                   name="tax"
@@ -194,7 +195,7 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
           </div>
           <div>
             <h3>N{total - Number(formData.tax)}</h3>
-            <span className="mt-4 block text-primary-200/50 text-right">{formData.tax}</span>
+            <span className="mt-4 block text-primary-200/50 text-right">{formData.tax}%</span>
           </div>
         </div>
         <div className="flex-center justify-between py-[2.62rem] border-b border-secondary-100">

@@ -19,8 +19,6 @@ const Clients = () => {
 
   const {data, loading, fetchData, error} = useFetch(`client/all?pageNumber=${currentPage}&pageSize=10`)
 
-  // console.log(error)
-
   const allClients = data as clientDataI
 
   const handleToggleModal = () => {
