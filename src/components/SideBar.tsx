@@ -1,4 +1,4 @@
-import {call, category, invoices, logout, product, settings, user, wallet} from '@/utils/icons'
+import {call, category, invoices, logout, product, settings, user, vendor, wallet} from '@/utils/icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
@@ -54,17 +54,6 @@ const SideBar = () => {
               </>
             </Link>
           </li>
-          {/* <li>
-            <Link
-              href="/product"
-              className={` hover:text-primary-100 ${pathname === '/product' && 'text-primary-100'}`}
-            >
-              <>
-                {product}
-                <span>Product</span>
-              </>
-            </Link>
-          </li> */}
           <li>
             <Link href="/wallet" className={` hover:text-primary-100 ${pathname === '/wallet' && 'text-primary-100'}`}>
               <>
@@ -72,6 +61,29 @@ const SideBar = () => {
                 <span>Wallet</span>
               </>
             </Link>
+          </li>
+
+          <li className="border-t border-secondary-100 mt-16 pt-6">
+            <span className={`flex-center gap-2 cursor-not-allowed text-primary-200/70`}>
+              <>
+                <div className="flex-center gap-4">
+                  {user}
+                  <span>Product</span>
+                </div>
+                <span className="text-[#8638E5] bg-[#F5E6F3] text-xs rounded-full px-2 py-[0.38]">Premium</span>
+              </>
+            </span>
+          </li>
+          <li>
+            <span className={`flex-center gap-2 cursor-not-allowed text-primary-200/70`}>
+              <>
+                <div className="flex-center gap-4">
+                  {vendor}
+                  <span>Product</span>
+                </div>
+                <span className="text-[#8638E5] bg-[#F5E6F3] text-xs rounded-full px-2 py-[0.38]">Premium</span>
+              </>
+            </span>
           </li>
         </ul>
         <div className="flex justify-center border-t border-secondary-100 w-full pt-16">

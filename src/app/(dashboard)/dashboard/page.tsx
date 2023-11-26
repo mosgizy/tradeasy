@@ -9,6 +9,7 @@ import {useEffect} from 'react'
 
 const Dashboard = () => {
   const {data, loading} = useFetch('vendor/current')
+  const {data: statsData, loading: statsLoading} = useFetch('invoice/statistics')
   const {setVendorData} = registerStore()
 
   // console.log(data)
@@ -48,7 +49,7 @@ const Dashboard = () => {
             <div className="flex items-start justify-between font-medium px-8 pb-7 border-b border-secondary-100">
               <div>
                 <h3>Total invoice drafted for the week</h3>
-                <div className=" text-[2.5rem]">350</div>
+                <div className=" text-[2.5rem]">{statsData?.data.draftInvoices}</div>
               </div>
               <div className="flex gap-8 max-h-fit">
                 <div className="flex-center gap-3">

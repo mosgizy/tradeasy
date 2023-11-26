@@ -35,7 +35,7 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const {accountNumber, bankCode, password, amount} = formData
-    console.log(formData)
+    // console.log(formData)
     setloading(true)
     try {
       const res = await fetch(`${baseUrl}/wallet/withdraw`, {
@@ -48,13 +48,11 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
           accountNumber,
           bankCode,
           password,
-          amount: Number(amount)
+          amount: (Number(amount) / 2) * 100
         })
       })
 
       const data = await res.json()
-
-      // console.log(data)
 
       if (!res.ok) {
         notify(data.message)
@@ -73,7 +71,6 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
 
   const verifyAccountNumber = async () => {
     const {accountNumber, bankCode} = formData
-    // console.log(accountNumber, bankCode)
 
     try {
       const res = await fetch(`${baseUrl}/wallet/verify-account`, {
@@ -87,15 +84,11 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
 
       const data = await res.json()
 
-      // console.log(data)
-
       if (!res.ok) {
-        // notify(data.message)
       }
 
       if (res.ok) {
         setAccountName(data.data.account_name)
-        // notify(data.message)
       }
     } catch (error) {
       console.error(error)

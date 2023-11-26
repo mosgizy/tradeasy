@@ -24,8 +24,6 @@ const Invoice = () => {
   const {data, loading, fetchData, error} = useFetch(`invoice/all?pageNumber=${currentPage}&pageSize=10`)
   const {data: statsData, loading: statsLoading} = useFetch('invoice/statistics')
 
-  // console.log(statsData)
-
   const handleToggleDetails = (id?: string) => {
     setToggleDetails(prev => !prev)
     id && setInvoiceId(id)
@@ -198,14 +196,14 @@ const Invoice = () => {
                       <div>{formatDate(invoice.issuedAt)}</div>
                       <div className="flex-center justify-end gap-16">
                         <span
-                          className={`text-xs text-[#FF1D1D] bg-[#FFE8E8] font-medium rounded-lg p-1 ${
+                          className={`text-xs font-medium rounded-lg p-1 ${
                             invoice.status === 'PAID'
                               ? 'text-[#308B05] bg-[#EAFFE0]'
                               : invoice.status === 'DRAFT'
                               ? 'bg-[#E1EAFF] text-primary-200'
                               : invoice.status === 'UNPAID'
                               ? 'text-[#FF9B0F] bg-[#FFF4E5]'
-                              : ''
+                              : 'text-[#FF1D1D] bg-[#FFE8E8]'
                           }`}
                         >
                           {invoice.status}
