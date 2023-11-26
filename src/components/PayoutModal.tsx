@@ -25,7 +25,7 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
 
   const {data, loading: banksLoader} = useFetch('wallet/banks')
 
-  // console.log(accountName)
+  // console.log(data)
 
   const [loading, setloading] = useState(false)
 
@@ -38,7 +38,7 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
     console.log(formData)
     setloading(true)
     try {
-      const res = await fetch(`${baseUrl}/client/create`, {
+      const res = await fetch(`${baseUrl}/wallet/withdraw`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -54,13 +54,14 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
 
       const data = await res.json()
 
-      console.log(data)
+      // console.log(data)
 
       if (!res.ok) {
-        notify('Please provide all credentials')
+        notify(data.message)
       }
 
       if (res.ok) {
+        notify(data.message)
         closeModal()
       }
       setloading(false)
@@ -72,7 +73,7 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
 
   const verifyAccountNumber = async () => {
     const {accountNumber, bankCode} = formData
-    console.log(accountNumber, bankCode)
+    // console.log(accountNumber, bankCode)
 
     try {
       const res = await fetch(`${baseUrl}/wallet/verify-account`, {
@@ -81,12 +82,12 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
           'Content-Type': 'application/json; charset=utf-8',
           authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({bankCode, accountNumber})
+        body: JSON.stringify({bankCode: '004', accountNumber: '0690000032'})
       })
 
       const data = await res.json()
 
-      console.log(data)
+      // console.log(data)
 
       if (!res.ok) {
         // notify(data.message)
@@ -94,7 +95,7 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
 
       if (res.ok) {
         setAccountName(data.data.account_name)
-        notify(data.message)
+        // notify(data.message)
       }
     } catch (error) {
       console.error(error)

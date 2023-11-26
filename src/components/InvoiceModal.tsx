@@ -3,7 +3,7 @@
 import {nextWeekDate} from '@/helpers/nextWeekDate'
 import {registerStore} from '@/store/register'
 import {baseUrl} from '@/utils/constants'
-import {itemsI} from '@/utils/interface'
+import {clientI, itemsI} from '@/utils/interface'
 import Image from 'next/image'
 import {ChangeEvent, useEffect, useState} from 'react'
 import Cookies from 'js-cookie'
@@ -26,6 +26,8 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
     clientEmail: '',
     totalAmount: 0
   })
+
+  const {data: clients, loading: clientLoading, fetchData, error} = useFetch(`client/all`)
 
   const {data} = useFetch('vendor/current')
 
@@ -91,15 +93,22 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
             <div className="grid grid-cols-3 gap-4">
               <label htmlFor="clientEmail" className="flex-column gap-1 col-span-2">
                 <span className="text-sm font-medium">Recipient Email</span>
-                <input
-                  type="email"
+                <select
                   name="clientEmail"
                   id="clientEmail"
-                  value={formData.clientEmail}
                   onChange={handleForm}
-                  required
-                  className=" rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
-                />
+                  value={formData.clientEmail}
+                  className="bg-secondary-700 rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-[0.437rem] w-full"
+                >
+                  <option></option>
+                  {clients?.data?.result?.map((client: clientI) => {
+                    return (
+                      <option key={client.id} value={client.email}>
+                        {client.email}
+                      </option>
+                    )
+                  })}
+                </select>
               </label>
               <label htmlFor="tax" className="flex-column gap-1">
                 <span className="text-sm font-medium">Tax</span>

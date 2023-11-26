@@ -3,6 +3,7 @@
 import {calculateTimeInterval} from '@/helpers/timeInterval'
 import useFetch from '@/hooks/usefetch'
 import Image from 'next/image'
+import Empty from './Empty'
 
 interface activityI {
   action: string
@@ -20,20 +21,12 @@ const Activity = () => {
         <div className="text-primary-100 cursor-pointer">View all</div>
       </div>
       <div className="shadow-200 h-full rounded-md py-6 px-8 mt-6 flex-column gap-[.31rem]">
-        {data?.data.length < 1 ? (
-          <div className="h-full flex-center justify-center">
-            <div className="">
-              <div>
-                <span className="bg-[#EFF0F5] h-24 w-24 mx-auto rounded-full flex-center justify-center">
-                  <Image src="/images/activity.svg" alt="" height={56} width={56} />
-                </span>
-              </div>
-              <div className="text-center mt-6">
-                <div className="font-medium text-xl">Empty</div>
-                <div className="text-sm">You have no recent activity</div>
-              </div>
-            </div>
+        {loading ? (
+          <div className="flex-center justify-center">
+            <div className="loader"></div>
           </div>
+        ) : data?.data.length < 1 ? (
+          <Empty />
         ) : (
           data?.data.map((activity: activityI, index: number) => {
             const {value, unit} = calculateTimeInterval(activity.createdAt)

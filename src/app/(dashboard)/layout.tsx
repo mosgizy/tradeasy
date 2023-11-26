@@ -9,7 +9,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <SideBar />
       <section className="flex-[1_0_85%]">
         <Nav />
-        <section className=" py-12 px-9">{children}</section>
+        <section className="min-h-[90%] py-12 px-9">{children}</section>
       </section>
     </section>
   )

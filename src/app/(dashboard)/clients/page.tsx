@@ -2,6 +2,7 @@
 
 import AddClientModal from '@/components/AddClientModal'
 import ClientInfo from '@/components/ClientInfo'
+import Empty from '@/components/Empty'
 import Pagination from '@/components/Pagination'
 import useFetch from '@/hooks/usefetch'
 import {profile} from '@/utils/icons'
@@ -16,7 +17,9 @@ const Clients = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
-  const {data, loading, fetchData} = useFetch(`client/all?pageNumber=${currentPage}&pageSize=10`)
+  const {data, loading, fetchData, error} = useFetch(`client/all?pageNumber=${currentPage}&pageSize=10`)
+
+  // console.log(error)
 
   const allClients = data as clientDataI
 
@@ -45,7 +48,7 @@ const Clients = () => {
   }, [data])
 
   return (
-    <div>
+    <div className="h-full">
       <div className="flex-center justify-between">
         <h2 className="font-medium text-xl">Client History</h2>
         <div className="flex-center gap-4">
@@ -73,8 +76,8 @@ const Clients = () => {
           </button>
         </div>
       </div>
-      <div className=" mt-8">
-        <div className="border border-secondary-600">
+      <div className=" mt-8 h-full">
+        <div className="border border-secondary-600 h-full">
           <div className="grid grid-cols-5 gap-9 py-3 px-2 bg-secondary-500 font-medium">
             <div className="flex-center gap-8 col-span-2">
               <input type="checkbox" name="" id="" />
@@ -93,6 +96,8 @@ const Clients = () => {
               <div className="flex-center justify-center">
                 <div className="loader"></div>
               </div>
+            ) : error !== undefined ? (
+              <Empty />
             ) : (
               allClients?.data?.result?.map(client => {
                 return (

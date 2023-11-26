@@ -25,6 +25,9 @@ const useFetch = (url:string) => {
         }
       })
       const data = await res.json()
+      if (!res.ok) {
+        setError(data.message)
+      }
       if (res.ok) {
         setData(data)
       }

@@ -12,6 +12,7 @@ import React, {useEffect, useState} from 'react'
 import Cookies from 'js-cookie'
 import useToaster from '@/hooks/useToast'
 import Pagination from '@/components/Pagination'
+import Empty from '@/components/Empty'
 
 const Invoice = () => {
   const [toggleModal, setToggleModal] = useState(false)
@@ -20,10 +21,10 @@ const Invoice = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
-  const {data, loading, fetchData} = useFetch(`invoice/all?pageNumber=${currentPage}&pageSize=10`)
+  const {data, loading, fetchData, error} = useFetch(`invoice/all?pageNumber=${currentPage}&pageSize=10`)
   const {data: statsData, loading: statsLoading} = useFetch('invoice/statistics')
 
-  console.log(statsData)
+  // console.log(statsData)
 
   const handleToggleDetails = (id?: string) => {
     setToggleDetails(prev => !prev)
@@ -81,7 +82,7 @@ const Invoice = () => {
   }, [data])
 
   return (
-    <div>
+    <div className="h-full">
       <div className="flex-center justify-between">
         <h2 className="font-semibold text-xl">Overview</h2>
         <button
@@ -129,7 +130,7 @@ const Invoice = () => {
           </div>
         </div>
       </div>
-      <div className=" mt-16">
+      <div className=" mt-16 h-full">
         <div className="flex-center justify-between">
           <h2 className="font-medium text-xl">Invoice History</h2>
           <div className="flex-center gap-4">
@@ -160,8 +161,8 @@ const Invoice = () => {
             </div>
           </div>
         </div>
-        <div className=" mt-4">
-          <div className="border border-secondary-600">
+        <div className=" mt-4 h-full">
+          <div className="border border-secondary-600 h-full">
             <div className="grid grid-cols-6 gap-9 py-3 px-2 bg-secondary-500 font-medium">
               <div className="flex-center gap-8 col-span-2">
                 <input type="checkbox" name="" id="" />
@@ -179,6 +180,8 @@ const Invoice = () => {
                 <div className="flex-center justify-center">
                   <div className="loader"></div>
                 </div>
+              ) : error !== undefined ? (
+                <Empty />
               ) : (
                 data?.data?.result.map((invoice: invoiceI) => {
                   return (

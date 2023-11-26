@@ -1,12 +1,20 @@
 'use client'
 
+import Empty from '@/components/Empty'
 import PayoutModal from '@/components/PayoutModal'
+import {formatDate} from '@/helpers/formatDate'
+import useFetch from '@/hooks/usefetch'
 import {arrowLeft, arrowRight, profile} from '@/utils/icons'
+import {paymentI} from '@/utils/interface'
 import Image from 'next/image'
 import {useState} from 'react'
 
 const Wallet = () => {
   const [toggleModal, setToggleModal] = useState(false)
+  const {data, loading, error} = useFetch('wallet/history')
+  const {data: vendorData, loading: vendorLoading} = useFetch('vendor/current')
+
+  // console.log(data, error)
 
   const handleToggleModal = () => {
     setToggleModal(prev => !prev)
@@ -25,15 +33,22 @@ const Wallet = () => {
       <div className="mt-10 grid grid-cols-3 gap-4 font-medium">
         <div className=" flex-column gap-4 py-6 px-8 rounded-lg shadow-100">
           <div>Paid In</div>
-          <div className="text-2xl font-medium">N2,480,000</div>
+          <div className="text-2xl">
+            {vendorLoading ? <div className="loader"></div> : <span>N{vendorData?.data.totalCredit}</span>}
+          </div>
         </div>
         <div className=" flex-column gap-4 py-6 px-8 rounded-lg shadow-100">
           <div>Paid Out</div>
-          <div className="text-2xl font-medium">N500,000</div>
+          <div className="text-2xl">
+            {vendorLoading ? <div className="loader"></div> : <span>N{vendorData?.data.totalWithdrawal}</span>}
+          </div>
         </div>
         <div className=" flex-column gap-4 py-6 px-8 rounded-lg shadow-100">
           <div>Balance</div>
-          <div className="text-2xl font-medium">N1,980,000</div>
+          <div className="text-2xl">
+            {' '}
+            {vendorLoading ? <div className="loader"></div> : <span>N{vendorData?.data.balance}</span>}
+          </div>
         </div>
       </div>
       <div className=" mt-16">
@@ -66,38 +81,53 @@ const Wallet = () => {
             <div className="grid grid-cols-5 gap-9 py-3 px-2 bg-secondary-500 font-medium">
               <div className="flex-center gap-8 col-span-2">
                 <input type="checkbox" name="" id="" />
-                <span>Payment Type</span>
+                <span>Profile</span>
               </div>
               <div>Date</div>
 
               <div className="text-right">Amount</div>
               <div className="flex-center justify-end gap-8">
-                <span>Total Balance</span>
+                <span>Type</span>
                 <Image src="/icons/more.svg" alt="" width={24} height={24} />
               </div>
             </div>
             <div>
-              <div className="cursor-pointer grid grid-cols-5 gap-9 py-3 px-2 font-medium border-b border-secondary-600">
-                <div className="flex-center gap-8 col-span-2">
-                  <input type="checkbox" name="" id="" />
-                  <div className="flex-center gap-2">
-                    <div className=" w-8 h-8 rounded-full bg-[#F7C8EF] flex-center justify-center">
-                      <span>{profile}</span>
-                    </div>
-                    <div>
-                      <h2>Awojobi Micheal</h2>
-                      <span className="text-xs">awojobimicheal089@gmail.com</span>
-                    </div>
-                  </div>
+              {loading ? (
+                <div className="flex-center justify-center">
+                  <div className="loader"></div>
                 </div>
-                <div className="flex-center">23 - 12 - 2020</div>
+              ) : error !== undefined ? (
+                <Empty />
+              ) : (
+                data?.data?.result.map((payment: paymentI) => {
+                  return (
+                    <div
+                      key={payment.id}
+                      className="cursor-pointer grid grid-cols-5 gap-9 py-3 px-2 font-medium border-b border-secondary-600"
+                    >
+                      <div className="flex-center gap-8 col-span-2">
+                        <input type="checkbox" name="" id="" />
+                        <div className="flex-center gap-2">
+                          <div className=" w-8 h-8 rounded-full bg-[#F7C8EF] flex-center justify-center">
+                            <span>{profile}</span>
+                          </div>
+                          <div>
+                            <h2>{payment.transacterName}</h2>
+                            <span className="text-xs">{payment.transacterEmail}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex-center">{formatDate(payment.createdAt)}</div>
 
-                <div className="text-right flex-center justify-end">N25,000.00</div>
-                <div className="flex-center justify-end gap-8">
-                  <span className="text-right">N340,000</span>
-                  <Image src="/icons/more.svg" alt="" width={24} height={24} />
-                </div>
-              </div>
+                      <div className="text-right flex-center justify-end">{payment.amount}</div>
+                      <div className="flex-center justify-end gap-8">
+                        <span className="text-right">{payment.type}</span>
+                        <Image src="/icons/more.svg" alt="" width={24} height={24} />
+                      </div>
+                    </div>
+                  )
+                })
+              )}
             </div>
             <div className="">
               <div className="p-6 flex-center justify-end gap-4">

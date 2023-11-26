@@ -48,3 +48,14 @@ export interface itemsI{
   quantity: number;
   unitPrice: number;
 }
+
+export interface paymentI {
+  id: string;
+  amount: string;
+  createdAt: string;
+  currency: string;
+  type: "CREDIT" | "DEBIT"; 
+  status: "PENDING" | "COMPLETED" | "FAILED";
+  transacterName: string;
+  transacterEmail: string;
+}
