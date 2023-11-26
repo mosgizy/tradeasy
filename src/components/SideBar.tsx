@@ -68,7 +68,7 @@ const SideBar = () => {
               <>
                 <div className="flex-center gap-4">
                   {user}
-                  <span>Product</span>
+                  <span>Payroll</span>
                 </div>
                 <span className="text-[#8638E5] bg-[#F5E6F3] text-xs rounded-full px-2 py-[0.38]">Premium</span>
               </>
@@ -79,7 +79,7 @@ const SideBar = () => {
               <>
                 <div className="flex-center gap-4">
                   {vendor}
-                  <span>Product</span>
+                  <span>vendor</span>
                 </div>
                 <span className="text-[#8638E5] bg-[#F5E6F3] text-xs rounded-full px-2 py-[0.38]">Premium</span>
               </>
