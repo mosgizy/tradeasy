@@ -41,7 +41,7 @@ const Business = () => {
 
       if (res.ok) {
         const oneDay = 24 * 60 * 60 * 1000
-        Cookies.set('token', data.data.token, {secure: true, sameSite: 'strict', expires: Date.now() - oneDay})
+        Cookies.set('token', data.data.token, {secure: true, expires: Date.now() - oneDay})
         router.push('/verify')
       }
       setloading(false)
