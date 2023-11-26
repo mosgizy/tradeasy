@@ -12,7 +12,7 @@ import {useState} from 'react'
 const Wallet = () => {
   const [toggleModal, setToggleModal] = useState(false)
   const {data, loading, error} = useFetch('wallet/history')
-  const {data: vendorData, loading: vendorLoading} = useFetch('vendor/current')
+  const {data: vendorData, loading: vendorLoading, fetchData} = useFetch('vendor/current')
 
   // console.log(data, error)
 
@@ -152,7 +152,7 @@ const Wallet = () => {
           </div>
         </div>
       </div>
-      {toggleModal && <PayoutModal closeModal={handleToggleModal} />}
+      {toggleModal && <PayoutModal closeModal={handleToggleModal} fetchData={fetchData} />}
     </div>
   )
 }

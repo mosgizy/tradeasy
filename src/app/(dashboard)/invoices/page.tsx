@@ -22,7 +22,7 @@ const Invoice = () => {
   const [totalPages, setTotalPages] = useState(1)
 
   const {data, loading, fetchData, error} = useFetch(`invoice/all?pageNumber=${currentPage}&pageSize=10`)
-  const {data: statsData, loading: statsLoading} = useFetch('invoice/statistics')
+  const {data: statsData, loading: statsLoading,fetchData:fetchDataStats} = useFetch('invoice/statistics')
 
   const handleToggleDetails = (id?: string) => {
     setToggleDetails(prev => !prev)
@@ -58,6 +58,7 @@ const Invoice = () => {
       if (res.ok) {
         handleToggleModal()
         fetchData()
+        fetchDataStats()
         notify(data.message)
       }
       setLoading(false)

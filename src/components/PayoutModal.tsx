@@ -7,7 +7,12 @@ import useToaster from '@/hooks/useToast'
 import Image from 'next/image'
 import useFetch from '@/hooks/usefetch'
 
-const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
+interface modalI {
+  closeModal: () => void
+  fetchData: () => void
+}
+
+const PayoutModal = ({closeModal, fetchData}: modalI) => {
   const [formData, setFormData] = useState({
     bankCode: '',
     accountNumber: '',
@@ -35,7 +40,7 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const {accountNumber, bankCode, password, amount} = formData
-    // console.log(formData)
+    const percent = (2 / Number(amount)) * 100
     setloading(true)
     try {
       const res = await fetch(`${baseUrl}/wallet/withdraw`, {
@@ -45,10 +50,10 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
           authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
-          accountNumber,
-          bankCode,
+          bankCode: '004',
+          accountNumber: '0690000032',
           password,
-          amount: (Number(amount) / 2) * 100
+          amount: Number(amount) - percent
         })
       })
 
@@ -60,6 +65,7 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
 
       if (res.ok) {
         notify(data.message)
+        fetchData()
         closeModal()
       }
       setloading(false)
@@ -83,9 +89,6 @@ const PayoutModal = ({closeModal}: {closeModal: () => void}) => {
       })
 
       const data = await res.json()
-
-      if (!res.ok) {
-      }
 
       if (res.ok) {
         setAccountName(data.data.account_name)
