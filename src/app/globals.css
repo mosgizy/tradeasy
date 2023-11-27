@@ -73,7 +73,7 @@
   }
 
   .modal-wrapper{
-    @apply bg-primary-200/20 px-5 fixed inset-0 flex-center justify-center
+    @apply bg-primary-200/20 px-5 fixed z-50 inset-0 flex-center justify-center
   }
 
   .modal{

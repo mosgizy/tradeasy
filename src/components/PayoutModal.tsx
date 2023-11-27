@@ -28,8 +28,6 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
 
   const {data, loading: banksLoader} = useFetch('wallet/banks')
 
-  // console.log(data)
-
   const [loading, setloading] = useState(false)
 
   const token = Cookies.get('token')
@@ -149,7 +147,14 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
               className=" rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
             />
           </label>
-          {accountName && <div>{accountName}</div>}
+          {accountName && (
+            <div className="text-[#308B05] flex-center justify-between">
+              <span>{accountName}</span>
+              <span className="flex-center justify-center bg-[#AFF4C6] rounded-full h-[1.336rem] w-[1.336rem]">
+                <Image src="/icons/check.svg" alt="" height={12} width={12} />
+              </span>
+            </div>
+          )}
 
           <hr className=" my-4" />
 

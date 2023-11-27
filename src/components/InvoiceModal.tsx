@@ -68,15 +68,18 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
 
   return (
     <div onClick={closeModal} className="modal-wrapper">
-      <div onClick={e => e.stopPropagation()} className="modal md:min-w-[40rem]">
+      <div
+        onClick={e => e.stopPropagation()}
+        className="modal max-h-[80vh] overflow-scroll md:max-h-max md:min-w-[40rem]"
+      >
         {edit ? (
-          <div className="flex md:justify-between mb-[4.25rem]">
+          <div className="flex-column md:justify-between mb-8 md:mb-[4.25rem]">
             <div className="text-primary-200/50">
               <div className=" text-lg font-medium">
                 Billed to: <span className="text-primary-200">{formData.clientEmail}</span>
               </div>
             </div>
-            <div className="font-medium text-right">
+            <div className="font-medium md:text-right">
               <div className="text-primary-200/50 text-sm">
                 Due Date: <span className="text-primary-200">{nextWeekDate()}</span>
               </div>
@@ -90,13 +93,13 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
           </div>
         )}
         {edit ? (
-          <div className="font-medium text-center mb-4">
+          <div className="font-medium md:text-center mb-4">
             <div className="text-primary-200/50 text-sm">PLEASE MAKE PAYABLE TO</div>
             <div className=" text-xl">{data?.data.businessName}</div>
           </div>
         ) : (
           <div className=" mt-5 mb-4 flex-column gap-4">
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-4">
               <label htmlFor="clientEmail" className="flex-column gap-1 col-span-2">
                 <span className="text-sm font-medium">Recipient Email</span>
                 <select
@@ -116,21 +119,7 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
                   })}
                 </select>
               </label>
-              <label htmlFor="tax" className="flex-column gap-1">
-                <span className="text-sm font-medium">Tax (%)</span>
-                <input
-                  type="text"
-                  name="tax"
-                  id="tax"
-                  value={formData.tax}
-                  onChange={handleForm}
-                  required
-                  className=" rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
-                />
-              </label>
-            </div>
-            <div className="grid grid-cols-4 gap-4">
-              <label htmlFor="item" className="flex-column gap-1 col-span-2">
+              <label htmlFor="item" className="md:hidden flex-column gap-1 col-span-2">
                 <span className="text-sm font-medium">Invoice Item</span>
                 <input
                   type="text"
@@ -140,6 +129,32 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
                   onChange={handleForm}
                   required
                   className=" rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
+                />
+              </label>
+              <label htmlFor="tax" className="hidden md:flex-column gap-1">
+                <span className="text-sm font-medium">Tax (%)</span>
+                <input
+                  type="text"
+                  name="tax"
+                  id="tax"
+                  value={formData.tax}
+                  onChange={handleForm}
+                  required
+                  className="rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
+                />
+              </label>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <label htmlFor="item" className="hidden md:flex-column gap-1 col-span-2">
+                <span className="text-sm font-medium">Invoice Item</span>
+                <input
+                  type="text"
+                  name="item"
+                  id="item"
+                  value={formData.item}
+                  onChange={handleForm}
+                  required
+                  className="rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
                 />
               </label>
               <label htmlFor="quantity" className="flex-column gap-1">
@@ -164,6 +179,18 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
                   onChange={handleForm}
                   required
                   className=" rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
+                />
+              </label>
+              <label htmlFor="tax" className="md:hidden col-span-2 flex-column gap-1">
+                <span className="text-sm font-medium">Tax (%)</span>
+                <input
+                  type="text"
+                  name="tax"
+                  id="tax"
+                  value={formData.tax}
+                  onChange={handleForm}
+                  required
+                  className="rounded-lg outline-none focus-within:border-primary-100 border border-secondary-100 px-2 py-1 w-full"
                 />
               </label>
             </div>
@@ -207,24 +234,27 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
           <h3>Total</h3>
           <h3>N{total + Number(formData.quantity) * Number(formData.unitPrice) + calcPercentage()}</h3>
         </div>
-        <div className=" mt-6 flex justify-end">
+        <div className=" mt-6 flex md:justify-end">
           {edit ? (
-            <div className="flex-center gap-6">
+            <div className="flex-center gap-6 w-full md:w-auto">
               <button
                 onClick={() => setEdit(false)}
-                className="font-medium rounded-lg border border-primary-100 text-primary-100 px-10 py-[0.875rem]"
+                className="w-full md:w-auto font-medium rounded-lg border border-primary-100 text-primary-100 px-10 py-[0.875rem]"
               >
                 Edit
               </button>
               <button
                 onClick={submitInvoice}
-                className="font-medium text-white rounded-lg bg-primary-100 px-10 py-[0.875rem]"
+                className="w-full md:w-auto font-medium text-white rounded-lg bg-primary-100 px-10 py-[0.875rem]"
               >
                 {loading ? <div className="loader"></div> : 'Send Invoice'}
               </button>
             </div>
           ) : (
-            <button onClick={preview} className="font-medium text-white rounded-lg bg-primary-100 px-10 py-[0.875rem]">
+            <button
+              onClick={preview}
+              className="w-full md:w-auto font-medium text-white rounded-lg bg-primary-100 px-10 py-[0.875rem]"
+            >
               Preview
             </button>
           )}
