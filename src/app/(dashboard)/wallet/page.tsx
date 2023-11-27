@@ -84,7 +84,7 @@ const Wallet = () => {
         </button>
       </div>
       <div className=" mt-16">
-        <div className="flex-column gap-6 md:flex md:items-center justify-between">
+        <div className="flex-column gap-6 md:flex md:flex-row md:items-center justify-between">
           <h2 className="font-medium text-xl">Payment History</h2>
           <div className="hidden md:block">{list}</div>
           <label htmlFor="search" className="relative">
@@ -155,11 +155,11 @@ const Wallet = () => {
                           <div className="md:hidden">Date</div>
                           <div className="flex-center">{formatDate(payment.createdAt)}</div>
                         </div>
-                        <div className="flex-center gap-6 justify-between">
+                        <div className="flex-center gap-6 justify-between md:justify-end">
                           <div className="md:hidden">Amount</div>
                           <div className="text-right flex-center justify-end">{payment.amount}</div>
                         </div>
-                        <div className="flex-center gap-6 justify-between">
+                        <div className="flex-center gap-6 justify-between md:justify-end">
                           <div className="md:hidden">Type</div>
                           <div className="flex-center justify-end gap-8">
                             <span className="text-right">{payment.type}</span>

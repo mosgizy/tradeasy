@@ -76,14 +76,14 @@ const Clients = () => {
       </div>
       <div className=" mt-8 h-full">
         <div className="md:border border-secondary-600 h-full">
-          <div className="hidden md:grid grid-cols-5 gap-9 py-3 px-2 bg-secondary-500 font-medium">
+          <div className="hidden md:grid grid-cols-6 gap-9 py-3 px-2 bg-secondary-500 font-medium">
             <div className="flex-center gap-8 col-span-2">
               <input type="checkbox" name="" id="" />
               <span>Client</span>
             </div>
             <div>Type</div>
 
-            <div className="text-right">Address</div>
+            <div className="col-span-2">Address</div>
             <div className="flex-center justify-end gap-8">
               <span>Total item bought</span>
               <Image src="/icons/more.svg" alt="" width={24} height={24} />
@@ -106,7 +106,7 @@ const Clients = () => {
                     </div>
                     <div
                       onClick={() => handleToggleDetail(client.id)}
-                      className="[&>div]:h-fit w-full cursor-pointer grid grid-rows-4 md:grid-rows-none md:grid-cols-5 gap-4 md:gap-9 py-3 px-2 font-medium md:border-b border-secondary-600"
+                      className="w-full cursor-pointer flex-column md:grid md:grid-cols-6 gap-4 md:gap-9 py-3 px-2 font-medium md:border-b border-secondary-600"
                     >
                       <div className="flex-center gap-6 justify-between md:col-span-2 w-full">
                         <div className="md:hidden">Client</div>
@@ -127,11 +127,11 @@ const Clients = () => {
                         <div className="md:hidden">Type</div>
                         <div className="md:flex-center">{client.clientType.toLowerCase()}</div>
                       </div>
-                      <div className="flex-center gap-6 justify-between">
+                      <div className="flex-center gap-6 justify-between col-span-2">
                         <div className="md:hidden">Address</div>
-                        <div className="md:text-right md:flex-center justify-end truncate">{client.billingAddress}</div>
+                        <div className="md:flex-center truncate">{client.billingAddress}</div>
                       </div>
-                      <div className="flex-center gap-6 justify-between">
+                      <div className="flex-center gap-6 justify-between md:justify-end">
                         <div className="md:hidden">Total item bought</div>
                         <div className="md:flex-center md:justify-end gap-8">
                           <span className="text-right">{client.totalPurchasedItems}</span>
