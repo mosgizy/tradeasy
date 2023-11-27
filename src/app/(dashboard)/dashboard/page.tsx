@@ -63,7 +63,41 @@ const Dashboard = () => {
               </div>
             </div>
             <div>
-              <Chart />
+              {statsData?.data.draftInvoices ? (
+                <Chart />
+              ) : (
+                <div className="px-6 py-8">
+                  <div className="flex gap-5">
+                    <div className="grid grid-rows-[7] gap-4">
+                      <span>Mon</span>
+                      <span>Tue</span>
+                      <span>Wed</span>
+                      <span>Thur</span>
+                      <span>Fri</span>
+                      <span>Sat</span>
+                      <span>Sun</span>
+                    </div>
+                    <div className="grid grid-rows-[7] w-full">
+                      {Array.from({length: 7}, (_, index) => (
+                        <div key={index} className="grid grid-cols-6 w-full">
+                          {Array.from({length: 6}, (_, index) => (
+                            <div key={index} className="border border-[#ECECEC] bg-white px-4 py-2"></div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-7 w-full [&>span]:text-right">
+                    <span>0</span>
+                    <span>20</span>
+                    <span>40</span>
+                    <span>60</span>
+                    <span>80</span>
+                    <span>100</span>
+                    <span>120</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
