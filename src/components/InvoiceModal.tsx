@@ -1,12 +1,9 @@
 'use client'
 
 import {nextWeekDate} from '@/helpers/nextWeekDate'
-import {registerStore} from '@/store/register'
-import {baseUrl} from '@/utils/constants'
 import {clientI, itemsI} from '@/utils/interface'
 import Image from 'next/image'
-import {ChangeEvent, useEffect, useState} from 'react'
-import Cookies from 'js-cookie'
+import {ChangeEvent, useState} from 'react'
 import useFetch from '@/hooks/usefetch'
 
 interface modalI {
@@ -36,23 +33,34 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
     setFormData({...formData, [name]: value})
   }
 
+  const calcPercentage = () => {
+    const {quantity, unitPrice, tax} = formData
+    const totalPrice = total + Number(unitPrice) * Number(quantity)
+    const taxPrice = (Number(tax) / 100) * totalPrice
+
+    return taxPrice
+  }
+
   const addItems = () => {
-    const {item, quantity, unitPrice, tax} = formData
+    const {item, quantity, unitPrice} = formData
     if (item !== '' && quantity !== 0 && unitPrice !== 0) {
       setItems([...items, {item, quantity: Number(quantity), unitPrice: Number(unitPrice)}])
-      const totalPrice = total + Number(unitPrice) * Number(quantity)
-      const taxPrice = (Number(tax) / 100) * totalPrice
-      setTotal(totalPrice - taxPrice)
+      setTotal(total + Number(quantity) * Number(unitPrice))
       setFormData({...formData, item: '', quantity: 0, unitPrice: 0})
     }
   }
 
   const [loading, setLoading] = useState(false)
 
+  const preview = () => {
+    addItems()
+    setEdit(true)
+  }
+
   const submitInvoice = () => {
     const invoiceData = {
       clientEmail: formData.clientEmail,
-      totalAmount: total,
+      totalAmount: total + calcPercentage(),
       invoiceItems: items
     }
     submitForm(invoiceData, setLoading)
@@ -194,13 +202,13 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
             <span className="mt-4 block text-primary-200/50">(+) Tax</span>
           </div>
           <div>
-            <h3>N{total - Number(formData.tax)}</h3>
+            <h3>N{total + Number(formData.quantity) * Number(formData.unitPrice)}</h3>
             <span className="mt-4 block text-primary-200/50 text-right">{formData.tax}%</span>
           </div>
         </div>
         <div className="flex-center justify-between py-[2.62rem] border-b border-secondary-100">
           <h3>Total</h3>
-          <h3>N{total}</h3>
+          <h3>N{total + Number(formData.quantity) * Number(formData.unitPrice) + calcPercentage()}</h3>
         </div>
         <div className=" mt-6 flex justify-end">
           {edit ? (
@@ -219,10 +227,7 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
               </button>
             </div>
           ) : (
-            <button
-              onClick={() => setEdit(true)}
-              className="font-medium text-white rounded-lg bg-primary-100 px-10 py-[0.875rem]"
-            >
+            <button onClick={preview} className="font-medium text-white rounded-lg bg-primary-100 px-10 py-[0.875rem]">
               Preview
             </button>
           )}

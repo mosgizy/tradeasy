@@ -11,7 +11,6 @@ interface invoiceInfoI {
 
 const InvoiceDetails = ({toggle, closeModal, id}: invoiceInfoI) => {
   const {data, loading, fetchData} = useFetch(`invoice/${id}`)
-  // console.log(data)
 
   const formatDate = (dateString: string) => {
     const dateObject = new Date(dateString)
@@ -53,7 +52,19 @@ const InvoiceDetails = ({toggle, closeModal, id}: invoiceInfoI) => {
               <div className="text-sm">{data?.data.issuedTo.billingAddress}</div>
             </div>
           </div>
-          <div className="rounded-full p-[0.32rem] bg-[#EAFFE0] text-[#308B05] font-medium">Paid</div>
+          <div
+            className={`rounded-full p-[0.32rem] font-medium ${
+              data?.data?.status === 'PAID'
+                ? 'text-[#308B05] bg-[#EAFFE0]'
+                : data?.data?.status === 'DRAFT'
+                ? 'bg-[#E1EAFF] text-primary-200'
+                : data?.data?.status === 'UNPAID'
+                ? 'text-[#FF9B0F] bg-[#FFF4E5]'
+                : 'text-[#FF1D1D] bg-[#FFE8E8]'
+            }`}
+          >
+            {data?.data.status}
+          </div>
         </div>
         <div className="p-4 border-t border-secondary-100">
           <h2 className="font-medium text-xl">N{data?.data.totalAmount}</h2>

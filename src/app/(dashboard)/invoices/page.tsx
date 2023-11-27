@@ -22,7 +22,7 @@ const Invoice = () => {
   const [totalPages, setTotalPages] = useState(1)
 
   const {data, loading, fetchData, error} = useFetch(`invoice/all?pageNumber=${currentPage}&pageSize=10`)
-  const {data: statsData, loading: statsLoading,fetchData:fetchDataStats} = useFetch('invoice/statistics')
+  const {data: statsData, loading: statsLoading, fetchData: fetchDataStats} = useFetch('invoice/statistics')
 
   const handleToggleDetails = (id?: string) => {
     setToggleDetails(prev => !prev)
@@ -49,7 +49,6 @@ const Invoice = () => {
       })
 
       const data = await res.json()
-      console.log(data)
 
       if (!res.ok) {
         notify('Please provide all credentials')

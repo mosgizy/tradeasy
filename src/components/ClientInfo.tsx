@@ -13,7 +13,6 @@ interface clientInfoI {
 
 const ClientInfo = ({toggle, closeModal, id}: clientInfoI) => {
   const {data, loading, fetchData} = useFetch(`client/${id}`)
-  // console.log(data)
 
   const client = data as clientDetailI
 
@@ -40,6 +39,7 @@ const ClientInfo = ({toggle, closeModal, id}: clientInfoI) => {
         <div className="mt-4">
           <h2 className="font-medium">{client?.data?.fullname!}</h2>
           <span className="text-sm text-primary-200/70">{client?.data?.email}</span>
+          <div className="text-sm text-primary-200/70">{client?.data?.phone}</div>
         </div>
         <div className="mt-6">
           <div className="flex-center gap-2 text-xs">

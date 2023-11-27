@@ -13,7 +13,7 @@ const SideBar = () => {
 
   return (
     <div className="flex-[1_1_15%] bg-secondary-400 py-7">
-      <Link href="/" className="flex-center gap-2 mb-16">
+      <Link href="/" className="flex-center px-4 gap-2 mb-16">
         <>
           <Image src="/icons/logo.svg" alt="" width={18} height={19} />
           <span className="text-xl">Tradeazy.</span>
