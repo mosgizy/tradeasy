@@ -146,7 +146,7 @@ const Invoice = () => {
                 name="search"
                 id="search"
                 placeholder="Search Invoice"
-                className="w-full rounded-lg border border-secondary-100 px-4 py-[0.62rem] text-xs"
+                className="w-full md:w-auto rounded-lg border border-secondary-100 px-4 py-[0.62rem] text-xs"
               />
               <Image
                 src="/icons/search.svg"
