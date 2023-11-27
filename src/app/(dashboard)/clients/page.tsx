@@ -47,16 +47,16 @@ const Clients = () => {
 
   return (
     <div className="h-full">
-      <div className="flex-center justify-between">
+      <div className="md:flex-center md:flex-row flex-column gap-6 md:justify-between">
         <h2 className="font-medium text-xl">Client History</h2>
-        <div className="flex-center gap-4">
+        <div className="md:flex-center md:flex-row flex flex-col-reverse gap-8 md:gap-4">
           <label htmlFor="search" className="relative">
             <input
               type="text"
               name="search"
               id="search"
               placeholder="Search Invoice"
-              className=" rounded-lg border border-secondary-100 px-4 py-[0.88rem] text-xs"
+              className="w-full rounded-lg border border-secondary-100 px-4 py-[0.88rem] text-xs"
             />
             <Image
               src="/icons/search.svg"
@@ -75,8 +75,8 @@ const Clients = () => {
         </div>
       </div>
       <div className=" mt-8 h-full">
-        <div className="border border-secondary-600 h-full">
-          <div className="grid grid-cols-5 gap-9 py-3 px-2 bg-secondary-500 font-medium">
+        <div className="md:border border-secondary-600 h-full">
+          <div className="hidden md:grid grid-cols-5 gap-9 py-3 px-2 bg-secondary-500 font-medium">
             <div className="flex-center gap-8 col-span-2">
               <input type="checkbox" name="" id="" />
               <span>Client</span>
@@ -89,7 +89,7 @@ const Clients = () => {
               <Image src="/icons/more.svg" alt="" width={24} height={24} />
             </div>
           </div>
-          <div>
+          <div className="flex-column gap-4 md:gap-0">
             {loading ? (
               <div className="flex-center justify-center">
                 <div className="loader"></div>
@@ -99,29 +99,51 @@ const Clients = () => {
             ) : (
               allClients?.data?.result?.map(client => {
                 return (
-                  <div
-                    key={client.id}
-                    onClick={() => handleToggleDetail(client.id)}
-                    className="cursor-pointer grid grid-cols-5 gap-9 py-3 px-2 font-medium border-b border-secondary-600"
-                  >
-                    <div className="flex-center gap-8 col-span-2">
-                      <input type="checkbox" name="" id="" />
-                      <div className="flex-center gap-2">
-                        <div className=" w-8 h-8 rounded-full bg-[#F7C8EF] flex-center justify-center">
-                          <span>{profile}</span>
-                        </div>
-                        <div>
-                          <h2>{client.fullname}</h2>
-                          <span className="text-xs">{client.email}</span>
+                  <div key={client.id} className="w-full p-4 pb-0 md:p-0 shadow-200 md:shadow-none">
+                    <div className="flex-center justify-between mb-2 md:hidden">
+                      <input type="checkbox" name="" id="" className="" />
+                      <Image src="/icons/more.svg" alt="" width={24} height={24} className="cursor-pointer" />
+                    </div>
+                    <div
+                      onClick={() => handleToggleDetail(client.id)}
+                      className="[&>div]:h-fit w-full cursor-pointer grid grid-rows-4 md:grid-rows-none md:grid-cols-5 gap-4 md:gap-9 py-3 px-2 font-medium md:border-b border-secondary-600"
+                    >
+                      <div className="flex-center gap-6 justify-between md:col-span-2 w-full">
+                        <div className="md:hidden">Client</div>
+                        <div className="flex-center gap-8 row-span-2 md:row-span-1">
+                          <input type="checkbox" name="" id="" className="hidden md:block" />
+                          <div className="flex-center gap-2">
+                            <div className=" w-8 h-8 rounded-full bg-[#F7C8EF] flex-center justify-center">
+                              <span>{profile}</span>
+                            </div>
+                            <div>
+                              <h2>{client.fullname}</h2>
+                              <span className="text-xs">{client.email}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex-center">{client.clientType.toLowerCase()}</div>
-
-                    <div className="text-right flex-center justify-end truncate">{client.billingAddress}</div>
-                    <div className="flex-center justify-end gap-8">
-                      <span className="text-right">{client.totalPurchasedItems}</span>
-                      <Image src="/icons/more.svg" alt="" width={24} height={24} />
+                      <div className="flex-center gap-6 justify-between">
+                        <div className="md:hidden">Type</div>
+                        <div className="md:flex-center">{client.clientType.toLowerCase()}</div>
+                      </div>
+                      <div className="flex-center gap-6 justify-between">
+                        <div className="md:hidden">Address</div>
+                        <div className="md:text-right md:flex-center justify-end truncate">{client.billingAddress}</div>
+                      </div>
+                      <div className="flex-center gap-6 justify-between">
+                        <div className="md:hidden">Total item bought</div>
+                        <div className="md:flex-center md:justify-end gap-8">
+                          <span className="text-right">{client.totalPurchasedItems}</span>
+                          <Image
+                            src="/icons/more.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                            className="cursor-pointer hidden md:block"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )

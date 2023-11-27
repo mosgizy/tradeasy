@@ -15,12 +15,12 @@ const Activity = () => {
   const {data, loading} = useFetch('vendor/activity')
 
   return (
-    <div className="h-full">
+    <div className="w-full">
       <div className="font-semibold flex-center justify-between">
         <h2 className="text-xl">Activity Summary</h2>
         <div className="text-primary-100 cursor-pointer">View all</div>
       </div>
-      <div className="shadow-200 h-full rounded-md py-6 px-8 mt-6 flex-column gap-[.31rem]">
+      <div className="shadow-200 rounded-md py-6 px-8 mt-6 flex-column gap-[.31rem]">
         {loading ? (
           <div className="flex-center justify-center">
             <div className="loader"></div>

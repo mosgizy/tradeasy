@@ -24,7 +24,7 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
     totalAmount: 0
   })
 
-  const {data: clients, loading: clientLoading, fetchData, error} = useFetch(`client/all`)
+  const {data: clients} = useFetch(`client/all`)
 
   const {data} = useFetch('vendor/current')
 
@@ -68,12 +68,9 @@ const InvoiceModal = ({closeModal, submitForm}: modalI) => {
 
   return (
     <div onClick={closeModal} className="modal-wrapper">
-      <div
-        onClick={e => e.stopPropagation()}
-        className="relative bg-secondary-700 rounded-2xl p-6 max-w-lg min-w-[40rem]"
-      >
+      <div onClick={e => e.stopPropagation()} className="modal md:min-w-[40rem]">
         {edit ? (
-          <div className="flex justify-between mb-[4.25rem]">
+          <div className="flex md:justify-between mb-[4.25rem]">
             <div className="text-primary-200/50">
               <div className=" text-lg font-medium">
                 Billed to: <span className="text-primary-200">{formData.clientEmail}</span>

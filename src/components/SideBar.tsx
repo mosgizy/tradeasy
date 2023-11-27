@@ -1,10 +1,15 @@
-import {call, category, invoices, logout, product, settings, user, vendor, wallet} from '@/utils/icons'
+import {call, category, invoices, logout, settings, user, vendor, wallet} from '@/utils/icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
 import Cookies from 'js-cookie'
 
-const SideBar = () => {
+interface sideBarI {
+  toggle: boolean
+  handleToggle: () => void
+}
+
+const SideBar = ({toggle, handleToggle}: sideBarI) => {
   const pathname = usePathname()
   const logOut = () => {
     Cookies.remove('token')
@@ -12,16 +17,20 @@ const SideBar = () => {
   }
 
   return (
-    <div className="flex-[1_1_15%] bg-secondary-400 py-7">
+    <div
+      className={`bg-secondary-400 px-6 py-7 fixed min-h-screen z-50 transition-all md:transition-none md:translate-x-0 ${
+        toggle ? 'translate-x-0' : '-translate-x-full'
+      }`}
+    >
       <Link href="/" className="flex-center px-4 gap-2 mb-16">
         <>
           <Image src="/icons/logo.svg" alt="" width={18} height={19} />
           <span className="text-xl">Tradeazy.</span>
         </>
       </Link>
-      <div className="flex-column items-center justify-between h-4/5 px-5">
+      <div className="flex-column items-center justify-between h-[80vh] px-5">
         <ul className="flex-column gap-6 [&_a]:flex-center [&_a]:gap-4">
-          <li>
+          <li onClick={handleToggle}>
             <Link
               href="/dashboard"
               className={` hover:text-primary-100 ${pathname === '/dashboard' && 'text-primary-100'}`}
@@ -32,7 +41,7 @@ const SideBar = () => {
               </>
             </Link>
           </li>
-          <li>
+          <li onClick={handleToggle}>
             <Link
               href="/clients"
               className={` hover:text-primary-100 ${pathname === '/clients' && 'text-primary-100'}`}
@@ -43,7 +52,7 @@ const SideBar = () => {
               </>
             </Link>
           </li>
-          <li>
+          <li onClick={handleToggle}>
             <Link
               href="/invoices"
               className={` hover:text-primary-100 ${pathname === '/invoices' && 'text-primary-100'}`}
@@ -54,7 +63,7 @@ const SideBar = () => {
               </>
             </Link>
           </li>
-          <li>
+          <li onClick={handleToggle}>
             <Link href="/wallet" className={` hover:text-primary-100 ${pathname === '/wallet' && 'text-primary-100'}`}>
               <>
                 {wallet}

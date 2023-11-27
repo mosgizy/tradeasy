@@ -6,9 +6,9 @@ const chartSetting = {
     {
       label: 'invoices'
     }
-  ],
-  width: 700,
-  height: 400
+  ]
+  // width: 600,
+  // height: 400
 }
 const dataset = [
   {
@@ -45,7 +45,7 @@ const valueFormatter = (value: number) => `${value} invoices`
 
 export default function HorizontalBars() {
   return (
-    <div className="text-primary-100">
+    <div className="text-primary-100 h-96">
       <BarChart
         dataset={dataset}
         yAxis={[{scaleType: 'band', dataKey: 'day'}]}

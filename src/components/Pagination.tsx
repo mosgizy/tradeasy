@@ -22,7 +22,7 @@ const Pagination = ({currentPage, totalPages, onPageChange}: propsI) => {
   }
 
   return (
-    <div className="p-6 flex-center justify-end gap-4">
+    <div className="p-6 flex-center justify-center md:justify-end gap-4">
       <button onClick={prev}>{arrowLeft}</button>
       <ul className="flex gap-2 text-xs font-medium [&_button]:px-4 [&_button]:py-[0.6875rem] [&_button]:rounded-[0.25rem] [&_button]:border-[0.5px] [&_button]:border-secondary-100">
         {pageNumbers.map(pageNumber => (

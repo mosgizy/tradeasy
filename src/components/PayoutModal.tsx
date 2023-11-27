@@ -103,10 +103,7 @@ const PayoutModal = ({closeModal, fetchData}: modalI) => {
 
   return (
     <div className="modal-wrapper" onClick={closeModal}>
-      <div
-        onClick={e => e.stopPropagation()}
-        className="relative bg-secondary-700 rounded-2xl py-6 px-4 max-w-lg min-w-[25rem]"
-      >
+      <div onClick={e => e.stopPropagation()} className="modal">
         <div className="flex-center justify-between">
           <h2 className="font-semibold text-xl">Client Details </h2>
           <span onClick={closeModal}>
