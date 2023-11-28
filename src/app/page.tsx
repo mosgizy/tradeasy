@@ -18,8 +18,8 @@ export default function Home() {
           <span className="text-2xl hidden md:block">Tradeazy.</span>
         </div>
         <ul
-          className={`absolute md:relative inset-0 transition-all z-50 px-6 py-4 md:px-0 md:py-0 bg-secondary-400 md:bg-transparent flex-column md:flex-row md:flex-center gap-6 ${
-            toggle ? 'translate-y-0' : '-translate-y-full'
+          className={`absolute md:relative inset-0 transition-all z-50 px-6 py-4 md:px-0 md:py-0 bg-secondary-400 md:bg-transparent flex-column md:flex-row md:flex-center gap-6 md:translate-y-0 ${
+            toggle ? 'translate-y-0 ' : '-translate-y-full'
           }`}
         >
           <li className="md:hidden flex-center justify-between">
