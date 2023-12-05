@@ -1,0 +1,23 @@
+import { useEffect, useState } from "react"
+
+export const useTimer = () => {
+  const [seconds, setSeconds] = useState(180)
+  useEffect(() => {
+    if (seconds <= 0) {
+      return
+    }
+
+    const intervalId = setInterval(() => {
+      setSeconds(prevSeconds => prevSeconds - 1)
+    }, 1000)
+
+    return () => clearInterval(intervalId)
+  }, [seconds])
+
+  const setTimer = (value:number) => setSeconds(value)
+
+  const minutes = Math.floor(seconds / 60)
+  const remainingSeconds = seconds % 60
+
+  return {minutes,remainingSeconds,setTimer}
+}

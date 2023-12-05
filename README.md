@@ -1,3 +1,6 @@
+Link to [figma design](https://www.figma.com/file/cM7z4P7InoZo9Ojuaj98G8/Tradeazy?node-id=339%3A1944&mode=dev)
+Link to [API Doc](https://documenter.getpostman.com/view/17293965/2s9YeAAaD1#ec90afe0-2667-4a10-aa7d-25c522c21f31)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

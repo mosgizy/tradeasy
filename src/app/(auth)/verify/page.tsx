@@ -3,21 +3,25 @@
 import {baseUrl} from '@/utils/constants'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, {useState, useEffect, ChangeEvent, FormEvent} from 'react'
+import React, {useState, ChangeEvent, FormEvent} from 'react'
 import {useRouter} from 'next/navigation'
 import {registerStore} from '@/store/register'
 import Cookies from 'js-cookie'
 import useToaster from '@/hooks/useToast'
+import {useRefs} from '@/hooks/useRefs'
+import {useTimer} from '@/hooks/timer'
 
 const Verify = () => {
-  const [seconds, setSeconds] = useState(30)
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{[key: string]: string}>({
     num1: '',
     num2: '',
     num3: '',
     num4: '',
     num5: ''
   })
+
+  const {refsByKey, setRef} = useRefs()
+  const {minutes, remainingSeconds, setTimer} = useTimer()
 
   const {formData: vendor} = registerStore()
 
@@ -27,9 +31,12 @@ const Verify = () => {
 
   const router = useRouter()
 
-  const handleForm = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleForm = (index: number, e: ChangeEvent<HTMLInputElement>) => {
     const {name} = e.target
     const value = e.target.value.slice(0, 1)
+    if (value !== '') {
+      refsByKey[`num${index + 1}`]?.focus()
+    }
     setFormData({...formData, [name]: value.slice(0, 1)})
   }
 
@@ -76,7 +83,7 @@ const Verify = () => {
       const data = await res.json()
 
       if (res.ok) {
-        setSeconds(30)
+        setTimer(180)
       }
 
       console.log(data)
@@ -84,18 +91,6 @@ const Verify = () => {
       console.error(error)
     }
   }
-
-  useEffect(() => {
-    if (seconds <= 0) {
-      return
-    }
-
-    const intervalId = setInterval(() => {
-      setSeconds(prevSeconds => prevSeconds - 1)
-    }, 1000)
-
-    return () => clearInterval(intervalId)
-  }, [seconds])
 
   return (
     <div className="flex-[0_1_80%] md:flex-[0_1_45%]">
@@ -111,11 +106,20 @@ const Verify = () => {
           we sent a code to your email, enter it below to verify your account{' '}
         </h2>
         <div className="flex-center justify-center gap-4 [&>input]:font-bold [&>input]:text-center [&>input]:text-3xl [&>input]:border [&>input]:border-secondary-300 [&>input]:rounded-lg [&>input:focus-within]:border-primary-100 [&>input]:outline-none [&>input]:w-[3.5rem] md:[&>input]:w-[4.5rem] [&>input]:h-[4.1rem] md:[&>input]:h-[5.1875rem] ">
-          <input type="text" name="num1" id="" value={formData.num1} onChange={handleForm} maxLength={1} />
-          <input type="text" name="num2" id="" value={formData.num2} onChange={handleForm} maxLength={1} />
-          <input type="text" name="num3" id="" value={formData.num3} onChange={handleForm} maxLength={1} />
-          <input type="text" name="num4" id="" value={formData.num4} onChange={handleForm} maxLength={1} />
-          <input type="text" name="num5" id="" value={formData.num5} onChange={handleForm} maxLength={1} />
+          {Object.keys(formData).map((data, index) => {
+            return (
+              <input
+                key={index}
+                type="text"
+                name={`num${index + 1}`}
+                id=""
+                ref={element => setRef(element, `num${index + 1}`)}
+                value={formData[data]}
+                onChange={e => handleForm(index + 1, e)}
+                maxLength={1}
+              />
+            )
+          })}
         </div>
         <button className=" rounded-lg bg-primary-100 py-3 mt-12 block w-full font-bold text-white">
           {loading ? <div className="loader"></div> : 'Verify Account'}
@@ -127,7 +131,10 @@ const Verify = () => {
           </span>
         </div>
         <div className="text-center md:text-left">
-          Code will expire in <span className="text-primary-100">{seconds}Sec</span>
+          Code will expire in{' '}
+          <span className="text-primary-100">
+            {minutes} minutes {remainingSeconds} seconds
+          </span>
         </div>
       </form>
     </div>
